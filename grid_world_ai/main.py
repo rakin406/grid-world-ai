@@ -40,6 +40,8 @@ def run():
         pr.begin_drawing()
         pr.clear_background(pr.WHITE)
 
+        ai.train()
+
         draw_grid(grid_slices, grid_spacing)
 
         # Draw goal

@@ -30,6 +30,11 @@ class AI:
         # 4 actions: up, down, left, right
         self.q_table = np.zeros((self.grid_slices, self.grid_slices, 4))
 
+        self.training = True
+        self.new_episode = False
+        self.current_episode = 0
+        self.old_state = ()
+
     def random_state(self):
         while True:
             state = (random.randrange(0, WINDOW_WIDTH, self.grid_spacing),
@@ -63,6 +68,45 @@ class AI:
         self.state = next_state
 
         return next_state, reward, done
+
+    def train(self):
+        if self.training:
+            # TODO: This is probably not needed. Might have to refactor.
+            if self.current_episode == 0:
+                self.old_state = self.reset()
+
+            if self.new_episode:
+                self.current_episode += 1
+                self.old_state = self.reset()
+                self.new_episode = False
+
+            print(f"Episode: {self.current_episode}")
+
+            if random.uniform(0, 1) < self.epsilon:
+                action = random.choice(list(self.Action))  # Explore
+            else:
+                # FIX: IndexError: out of bounds for axis 0 with size 5.
+                action = np.argmax(
+                    self.q_table[self.old_state[0], self.old_state[1]])  # Exploit
+
+            next_state, reward, self.new_episode = self.step(action)
+
+            # Update Q-value
+            old_value = self.q_table[self.old_state[0],
+                                     self.old_state[1], action]
+            next_max = np.max(self.q_table[next_state[0], next_state[1]])
+
+            new_value = old_value + self.alpha * (reward + self.gamma *
+                                                  next_max - old_value)
+            self.q_table[self.old_state[0],
+                         self.old_state[1], action] = new_value
+
+            self.old_state = next_state
+
+        # Stop training if episodes are completed
+        if self.current_episode >= self.total_episodes:
+            self.training = False
+            print("Training complete!")
 
     def draw(self):
         pr.draw_rectangle(self.state[0], self.state[1], self.grid_spacing,
