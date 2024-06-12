@@ -1,6 +1,7 @@
 import random
 from enum import Enum, auto
 from constants import *
+import numpy as np
 import pyray as pr
 
 
@@ -25,6 +26,9 @@ class AI:
         self.gamma = 0.9        # Discount factor
         self.epsilon = 0.1      # Exploration rate
         self.total_episodes = 100000
+
+        # 4 actions: up, down, left, right
+        self.q_table = np.zeros((self.grid_slices, self.grid_slices, 4))
 
     def random_state(self):
         while True:
