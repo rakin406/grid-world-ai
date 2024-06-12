@@ -1,3 +1,4 @@
+import random
 from constants import *
 import pyray as pr
 
@@ -23,6 +24,10 @@ def draw_grid(slices: int, spacing: int):
 def run():
     slices = int(input("Enter grid slices: ").strip() or DEFAULT_GRID_SLICES)
     spacing = find_grid_spacing(slices)
+
+    # Random (x, y) coordinates as goal
+    goal = (random.randrange(0, WINDOW_WIDTH, spacing),
+            random.randrange(0, WINDOW_HEIGHT, spacing))
 
     pr.init_window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
     pr.set_target_fps(60)
