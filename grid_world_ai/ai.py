@@ -5,6 +5,8 @@ import pyray as pr
 
 
 class AI:
+    """This class uses Q-learning algorithm."""
+
     class Action(Enum):
         UP = auto()
         DOWN = auto()
@@ -17,6 +19,12 @@ class AI:
         self.grid_spacing = grid_spacing
         self.goal_state = goal_state
         self.state = self.random_state()    # Initial state of the agent
+
+        # Learning parameters
+        self.alpha = 0.00025    # Learning rate
+        self.gamma = 0.9        # Discount factor
+        self.epsilon = 0.1      # Exploration rate
+        self.total_episodes = 100000
 
     def random_state(self):
         while True:
