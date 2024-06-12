@@ -9,7 +9,6 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 raylib = "^5.0.0.2"
-pecs = {git = "https://github.com/rakin406/pecs.git"}
 
 
 [build-system]
