@@ -25,6 +25,8 @@ def run():
     spacing = find_grid_spacing(slices)
 
     pr.init_window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
+    pr.set_target_fps(60)
+
     while not pr.window_should_close():
         pr.begin_drawing()
         pr.clear_background(pr.WHITE)
@@ -32,6 +34,7 @@ def run():
         draw_grid(slices, spacing)
 
         pr.end_drawing()
+
     pr.close_window()
 
 
