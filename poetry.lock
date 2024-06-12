@@ -65,21 +65,6 @@ files = [
 pycparser = "*"
 
 [[package]]
-name = "pecs"
-version = "0.1.0"
-description = "An entity component system (ECS) for Python."
-optional = false
-python-versions = "^3.10"
-files = []
-develop = false
-
-[package.source]
-type = "git"
-url = "https://github.com/rakin406/pecs.git"
-reference = "HEAD"
-resolved_reference = "1954891a13bf0e072e46789d112a33511d8a10ab"
-
-[[package]]
 name = "pycparser"
 version = "2.22"
 description = "C parser in Python"
@@ -148,4 +133,4 @@ cffi = ">=1.14.6"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "ea241932ce03dd435174663aad37ea3126faf61eb621ce016eed6d6c684cec76"
+content-hash = "bbfde5d12f9f1e24b2efdbfe384786187e10d241fd0f767caef8dcdd080f35f3"

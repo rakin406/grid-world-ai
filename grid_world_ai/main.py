@@ -1,6 +1,6 @@
+import random
 from constants import *
 import pyray as pr
-import pecs
 
 
 def find_grid_spacing(slices: int) -> int:
@@ -22,19 +22,29 @@ def draw_grid(slices: int, spacing: int):
 
 
 def run():
-    slices = int(input("Enter grid slices: ").strip() or DEFAULT_GRID_SLICES)
-    spacing = find_grid_spacing(slices)
+    grid_slices = int(input("Enter grid slices: ").strip()
+                      or DEFAULT_GRID_SLICES)
+    grid_spacing = find_grid_spacing(grid_slices)
 
-    registry = pecs.Registry()
+    # Random (x, y) coordinates as goal
+    goal_pos = (random.randrange(0, WINDOW_WIDTH, grid_spacing),
+                random.randrange(0, WINDOW_HEIGHT, grid_spacing))
 
     pr.init_window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
+    pr.set_target_fps(60)
+
     while not pr.window_should_close():
         pr.begin_drawing()
         pr.clear_background(pr.WHITE)
 
-        draw_grid(slices, spacing)
+        draw_grid(grid_slices, grid_spacing)
+
+        # Draw goal
+        pr.draw_rectangle(goal_pos[0], goal_pos[1], grid_spacing, grid_spacing,
+                          pr.RED)
 
         pr.end_drawing()
+
     pr.close_window()
 
 
