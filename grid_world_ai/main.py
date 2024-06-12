@@ -1,5 +1,6 @@
 import random
 from constants import *
+from ai import AI
 import pyray as pr
 
 
@@ -33,6 +34,8 @@ def run():
     pr.init_window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
     pr.set_target_fps(60)
 
+    ai = AI(grid_slices, grid_spacing, goal_pos)
+
     while not pr.window_should_close():
         pr.begin_drawing()
         pr.clear_background(pr.WHITE)
@@ -42,6 +45,8 @@ def run():
         # Draw goal
         pr.draw_rectangle(goal_pos[0], goal_pos[1], grid_spacing, grid_spacing,
                           pr.RED)
+
+        ai.draw()
 
         pr.end_drawing()
 
