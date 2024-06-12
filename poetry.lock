@@ -77,7 +77,7 @@ develop = false
 type = "git"
 url = "https://github.com/rakin406/pecs.git"
 reference = "HEAD"
-resolved_reference = "6ebc57defad9751c98f355ea9fa5c10ca4f99557"
+resolved_reference = "1954891a13bf0e072e46789d112a33511d8a10ab"
 
 [[package]]
 name = "pycparser"
