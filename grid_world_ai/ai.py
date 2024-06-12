@@ -1,9 +1,16 @@
 import random
+from enum import Enum, auto
 from constants import *
 import pyray as pr
 
 
 class AI:
+    class Action(Enum):
+        UP = auto()
+        DOWN = auto()
+        LEFT = auto()
+        RIGHT = auto()
+
     def __init__(self, grid_slices: int, grid_spacing: int,
                  goal_state: tuple[int, int]):
         self.grid_slices = grid_slices
@@ -22,6 +29,28 @@ class AI:
         """Resets agent state to a random coordinate."""
         self.state = self.random_state()
         return self.state
+
+    def step(self, action: Action):
+        next_state = ()
+
+        if action == self.Action.UP:
+            next_state = (self.state[0], max(
+                self.state[1] - self.grid_spacing, 0))
+        elif action == self.Action.DOWN:
+            next_state = (self.state[0], min(self.state[1] + self.grid_spacing,
+                                             WINDOW_HEIGHT - self.grid_spacing))
+        elif action == self.Action.LEFT:
+            next_state = (
+                max(self.state[0] - self.grid_spacing, 0), self.state[1])
+        elif action == self.Action.RIGHT:
+            next_state = (min(self.state[0] + self.grid_spacing,
+                              WINDOW_WIDTH - self.grid_spacing), self.state[1])
+
+        reward = 1 if next_state == self.goal_state else -1
+        done = next_state == self.goal_state
+        self.state = next_state
+
+        return next_state, reward, done
 
     def draw(self):
         pr.draw_rectangle(self.state[0], self.state[1], self.grid_spacing,
