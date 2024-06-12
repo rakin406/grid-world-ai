@@ -1,10 +1,24 @@
 from constants import *
-from pyray import *
+import pyray as pr
 import pecs
 
 
-def find_grid_spacing(slices: int) -> float:
-    return WINDOW_WIDTH / slices
+def find_grid_spacing(slices: int) -> int:
+    return WINDOW_WIDTH // slices
+
+
+def draw_grid(slices: int, spacing: int):
+    # Vertical lines
+    x = spacing
+    for _ in range(slices - 1):
+        pr.draw_line(x, 0, x, WINDOW_HEIGHT, pr.BLACK)
+        x += spacing
+
+    # Horizontal lines
+    y = spacing
+    for _ in range(slices - 1):
+        pr.draw_line(0, y, WINDOW_WIDTH, y, pr.BLACK)
+        y += spacing
 
 
 def run():
@@ -13,12 +27,15 @@ def run():
 
     registry = pecs.Registry()
 
-    init_window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
-    while not window_should_close():
-        begin_drawing()
-        clear_background(WHITE)
-        end_drawing()
-    close_window()
+    pr.init_window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
+    while not pr.window_should_close():
+        pr.begin_drawing()
+        pr.clear_background(pr.WHITE)
+
+        draw_grid(slices, spacing)
+
+        pr.end_drawing()
+    pr.close_window()
 
 
 if __name__ == "__main__":
