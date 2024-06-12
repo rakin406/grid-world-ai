@@ -1,11 +1,18 @@
-from render_system import RenderSystem
+from constants import *
+from pyray import *
 import pecs
 
 
 def run():
     registry = pecs.Registry()
-    render_system = RenderSystem(registry)
-    render_system.display()
+
+    init_window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
+    while not window_should_close():
+        begin_drawing()
+        clear_background(WHITE)
+        draw_text("Hello world", 190, 200, 20, VIOLET)
+        end_drawing()
+    close_window()
 
 
 if __name__ == "__main__":
