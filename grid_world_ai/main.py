@@ -1,6 +1,5 @@
 from constants import *
 import pyray as pr
-import pecs
 
 
 def find_grid_spacing(slices: int) -> int:
@@ -24,8 +23,6 @@ def draw_grid(slices: int, spacing: int):
 def run():
     slices = int(input("Enter grid slices: ").strip() or DEFAULT_GRID_SLICES)
     spacing = find_grid_spacing(slices)
-
-    registry = pecs.Registry()
 
     pr.init_window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
     while not pr.window_should_close():
