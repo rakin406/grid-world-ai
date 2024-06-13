@@ -27,8 +27,8 @@ class AI:
         self.epsilon = 0.1      # Exploration rate
         self.total_episodes = 100000
 
-        # 4 actions: up, down, left, right
-        self.q_table = np.zeros((self.grid_slices, self.grid_slices, 4))
+        self.q_table = np.zeros(
+            (self.grid_slices, self.grid_slices, len(self.Action)))
 
         self.training = True
         self.new_episode = False
