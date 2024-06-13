@@ -91,10 +91,6 @@ class AI:
 
     def train(self):
         if self.training:
-            # TODO: Print episode 0 once.
-            # if self.current_episode == 0:
-            #     self.old_state = self.reset()
-
             if self.new_episode:
                 self.current_episode += 1
                 self.old_state = self.reset()
