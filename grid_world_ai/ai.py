@@ -1,5 +1,5 @@
 import random
-from enum import Enum, auto
+from enum import IntEnum
 from constants import *
 import numpy as np
 import pyray as pr
@@ -8,11 +8,11 @@ import pyray as pr
 class AI:
     """This class uses Q-learning algorithm."""
 
-    class Action(Enum):
-        UP = auto()
-        DOWN = auto()
-        LEFT = auto()
-        RIGHT = auto()
+    class Action(IntEnum):
+        UP = 0
+        DOWN = 1
+        LEFT = 2
+        RIGHT = 3
 
     def __init__(self, grid_slices: int, grid_spacing: int,
                  goal_state: tuple[int, int]):
@@ -69,6 +69,12 @@ class AI:
 
         return next_state, reward, done
 
+    def coord_to_indices(self, coords: tuple[int, int]) -> tuple[int, int]:
+        """Converts screen coordinates to grid indices."""
+        grid_index_x = coords[0] // self.grid_spacing
+        grid_index_y = coords[1] // self.grid_spacing
+        return (grid_index_x, grid_index_y)
+
     def train(self):
         if self.training:
             # TODO: This is probably not needed. Might have to refactor.
@@ -82,24 +88,27 @@ class AI:
 
             print(f"Episode: {self.current_episode}")
 
+            # Convert screen coordinates to grid indices
+            grid_indices = self.coord_to_indices(self.old_state)
+
+            # Choose action
             if random.uniform(0, 1) < self.epsilon:
-                action = random.choice(list(self.Action))  # Explore
+                action = random.choice(list(self.Action))   # Explore
             else:
-                # FIX: IndexError: out of bounds for axis 0 with size 5.
+                # Exploit
                 action = np.argmax(
-                    self.q_table[self.old_state[0], self.old_state[1]])  # Exploit
+                    self.q_table[grid_indices[0], grid_indices[1]])
 
             next_state, reward, self.new_episode = self.step(action)
+            next_indices = self.coord_to_indices(next_state)
 
             # Update Q-value
-            old_value = self.q_table[self.old_state[0],
-                                     self.old_state[1], action]
-            next_max = np.max(self.q_table[next_state[0], next_state[1]])
+            old_value = self.q_table[grid_indices[0], grid_indices[1], action]
+            next_max = np.max(self.q_table[next_indices[0], next_indices[1]])
 
             new_value = old_value + self.alpha * (reward + self.gamma *
                                                   next_max - old_value)
-            self.q_table[self.old_state[0],
-                         self.old_state[1], action] = new_value
+            self.q_table[grid_indices[0], grid_indices[1], action] = new_value
 
             self.old_state = next_state
 
