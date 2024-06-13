@@ -22,9 +22,11 @@ class AI:
         self.state = self.random_state()    # Initial state of the agent
 
         # Learning parameters
-        self.alpha = 0.1    # Learning rate
-        self.gamma = 0.5        # Discount factor
-        self.epsilon = 0.3      # Exploration rate
+        self.alpha = 0.1         # Learning rate
+        self.gamma = 0.5         # Discount factor
+        self.epsilon = 1.0       # Initial exploration rate
+        self.min_epsilon = 0.01  # Minimum exploration rate
+        self.decay_rate = 0.99
         self.total_episodes = 10000
 
         self.q_table = np.zeros(
@@ -75,6 +77,18 @@ class AI:
         grid_index_y = coords[1] // self.grid_spacing
         return (grid_index_x, grid_index_y)
 
+    def choose_action(self, grid_indices: tuple[int, int]) -> Action:
+        """Epsilon-greedy action selection"""
+        if random.uniform(0, 1) < self.epsilon:
+            return random.choice(list(self.Action))   # Explore
+
+        # Exploit
+        return np.argmax(self.q_table[grid_indices[0], grid_indices[1]])
+
+    def decay_epsilon(self):
+        """Decays exploration rate."""
+        self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
+
     def train(self):
         if self.training:
             # TODO: This is probably not needed. Might have to refactor.
@@ -85,19 +99,14 @@ class AI:
             if self.new_episode:
                 self.current_episode += 1
                 self.old_state = self.reset()
+                self.decay_epsilon()
                 self.new_episode = False
                 print(f"Episode: {self.current_episode}")
 
             # Convert screen coordinates to grid indices
             grid_indices = self.coord_to_indices(self.old_state)
 
-            # Choose action
-            if random.uniform(0, 1) < self.epsilon:
-                action = random.choice(list(self.Action))   # Explore
-            else:
-                # Exploit
-                action = np.argmax(
-                    self.q_table[grid_indices[0], grid_indices[1]])
+            action = self.choose_action(grid_indices)
 
             next_state, reward, self.new_episode = self.step(action)
             next_indices = self.coord_to_indices(next_state)
