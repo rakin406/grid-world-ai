@@ -121,10 +121,10 @@ class AI:
 
             self.old_state = next_state
 
-        # Stop training if episodes are completed
-        if self.current_episode >= self.total_episodes:
-            self.training = False
-            print("Training complete!")
+            # Stop training if episodes are completed
+            if self.current_episode >= self.total_episodes:
+                self.training = False
+                print("Training complete!")
 
     def draw(self):
         pr.draw_rectangle(self.state[0], self.state[1], self.grid_spacing,
