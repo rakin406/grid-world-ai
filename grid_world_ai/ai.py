@@ -22,10 +22,10 @@ class AI:
         self.state = self.random_state()    # Initial state of the agent
 
         # Learning parameters
-        self.alpha = 0.00025    # Learning rate
-        self.gamma = 0.9        # Discount factor
-        self.epsilon = 0.1      # Exploration rate
-        self.total_episodes = 100000
+        self.alpha = 0.1    # Learning rate
+        self.gamma = 0.5        # Discount factor
+        self.epsilon = 0.3      # Exploration rate
+        self.total_episodes = 10000
 
         self.q_table = np.zeros(
             (self.grid_slices, self.grid_slices, len(self.Action)))
