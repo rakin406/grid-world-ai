@@ -35,7 +35,7 @@ class AI:
         self.training = True
         self.new_episode = False
         self.current_episode = 0
-        self.old_state = ()
+        self.old_state = self.state
 
     def random_state(self):
         while True:
@@ -91,11 +91,6 @@ class AI:
 
     def train(self):
         if self.training:
-            # TODO: This is probably not needed. Might have to refactor.
-            if self.current_episode == 0:
-                # TODO: Print episode 0 once.
-                self.old_state = self.reset()
-
             if self.new_episode:
                 self.current_episode += 1
                 self.old_state = self.reset()
