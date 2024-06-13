@@ -79,14 +79,14 @@ class AI:
         if self.training:
             # TODO: This is probably not needed. Might have to refactor.
             if self.current_episode == 0:
+                # TODO: Print episode 0 once.
                 self.old_state = self.reset()
 
             if self.new_episode:
                 self.current_episode += 1
                 self.old_state = self.reset()
                 self.new_episode = False
-
-            print(f"Episode: {self.current_episode}")
+                print(f"Episode: {self.current_episode}")
 
             # Convert screen coordinates to grid indices
             grid_indices = self.coord_to_indices(self.old_state)
