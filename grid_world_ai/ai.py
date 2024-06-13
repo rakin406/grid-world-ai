@@ -85,6 +85,10 @@ class AI:
         # Exploit
         return np.argmax(self.q_table[grid_indices[0], grid_indices[1]])
 
+    def decay_epsilon(self):
+        """Decays exploration rate."""
+        self.epsilon = max(self.min_epsilon, self.epsilon * self.decay_rate)
+
     def train(self):
         if self.training:
             # TODO: This is probably not needed. Might have to refactor.
@@ -95,6 +99,7 @@ class AI:
             if self.new_episode:
                 self.current_episode += 1
                 self.old_state = self.reset()
+                self.decay_epsilon()
                 self.new_episode = False
                 print(f"Episode: {self.current_episode}")
 
